@@ -12,7 +12,21 @@ class baw {
 	  		this.sendRequest(Data);
 	  }
 
-	  
+	  PushEvent(Event)
+	  {
+	  		this.PushEventValue(Event,1);
+	  }
+
+
+	  PushEventValue(Event, Value)
+	  {
+	  	var Data = {
+	  			"event" : Event,
+	  			"page_id" : this.PageId,
+	  			"value" : value
+	  		};
+	  		this.sendRequest(Data);
+	  }
 
 
 	  sendRequest(DataRequest)
