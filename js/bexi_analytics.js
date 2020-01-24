@@ -1,16 +1,32 @@
 class baw {
 
-	  constructor(PageId) {
-	  		this.PageId = PageId;
-	  		var Data = {
-	  			"event" : "visit",
-	  			"page_id" : this.PageId,
-	  			"referer" : document.referrer,
-	  			"location" : window.location.href,
-	  			"path" : window.location.pathnam
-	  		};
-	  		this.sendRequest(Data);
-	  }
+	constructor(PageId, EventType, ExtraFields) {
+		this.PageId = PageId;
+		var ExtraFields = ExtraFields;
+		this.Data = {
+			"event" : EventType,
+			"page_id" : this.PageId,
+			"referer" : document.referrer,
+			"location" : window.location.href,
+			"path" : window.location.pathnam
+		};
+		this.ExtraData(ExtraFields);
+				
+		this.sendRequest(this.Data);
+	}
+
+	ExtraData(ExtraFields){
+		switch (this.Event) {
+			case 'timePage':
+				this.Data["timePage"] = ExtraFields["timePage"];
+				break;
+			case 'scrollPercentage':
+				this.Data["scrollPercentage"] = ExtraFields["scrollPercentage"];
+				break;
+			default:
+				break;
+		}
+	}
 
 	  PushEvent(Event)
 	  {
