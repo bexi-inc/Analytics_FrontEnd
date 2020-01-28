@@ -49,14 +49,9 @@ window.addEventListener("scroll", function(){
     timerscroll = setTimeout(function(){
         var pctScrolled = scroll_change.amountscrolled()
          if(pctScrolled > pctAux){
-            changeScroll = true
             pctAux = pctScrolled
             b = new baw("test-1234","scrollPercentage",{scrollPercentage : pctScrolled});
             //console.log(pctScrolled)  
-        }
-        if(changeScroll){
-            //console.log("save scroll percentage")
-            changeScroll = false
-        }   
+        } 
     }, 50)
 }, false)
