@@ -6,7 +6,7 @@
     
     <script type="text/javascript" src="js/bexi_analytics.js"></script>
 
-    <script type="text/javascript" src="js/catch_events.js"></script> 
+    
 	
  </head>
  <body>
