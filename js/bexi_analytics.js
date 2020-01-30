@@ -17,10 +17,10 @@ class baw {
 
 	ExtraData(ExtraFields){
 		switch (this.Event) {
-			case 'timePage':
+			case 'time_page':
 				this.Data["timePage"] = ExtraFields["timePage"];
 				break;
-			case 'scrollPercentage':
+			case 'scroll_percentage':
 				this.Data["scrollPercentage"] = ExtraFields["scrollPercentage"];
 				break;
 			default:
