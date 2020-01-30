@@ -1,4 +1,6 @@
 <?
+session_start();
+
 require 'vendor/autoload.php';
 require 'config.php';
 
@@ -23,25 +25,29 @@ $Marshaler = new Marshaler();
 
 
 // FUNCTION TO DAVE EVENTS SON DYNAMODB
-function SaveEvent($session, $page_id, $event, $value, $extraData = [])
+function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = [])
 {
 	global $Marshaler;
 	global $Dynamodb;
 
-	if (empty($page_id) || empty($session))
+	if (empty($site_id) || empty($user_id) || empty($session))
 	{
 		return;
 	}
 
 	$event_id = uniqid("",true);
+	$full_date = date("YmdHms");
+	$dateonly = substr($full_date,0,8);
+	$timeonly = substr($full_date,8);
 	$data='
     {
-        "site_id": "' . $page_id . '",
-        "session_id" : "' . $session . '",
+        "site_id": "' . $site_id . '",
+        "user_id" : "' . $session . '",
+        "session_id" : "' . $user_id . '",
         "e_id": "' . $event_id . '",
-        "e_fulldate": "' . date("YmdHms") . '",
-        "e_date": "' . date("Ymd") . '",
-        "e_time": "' . date("Hms") . '",
+        "e_fulldate": "' . $full_date . '",
+        "e_date": "' . $dateonly . '",
+        "e_time": "' . $timeonly . '",
         "e_type": "'. $event .'"';
 
     if ($value != "")
@@ -101,6 +107,14 @@ function SaveEvent($session, $page_id, $event, $value, $extraData = [])
 
 	try {
 	    $result = $Dynamodb->putItem($params);
+
+	    if ($result)
+	    {
+	    	$event["id"] = $event_id;
+	    	$event["date"] = $full_date;
+
+	    	return $event;
+	    }
 	    //return true;
 	} catch (DynamoDbException $e) {
 	    //$ret["error"] = $e->getMessage();
@@ -112,7 +126,7 @@ function SaveEvent($session, $page_id, $event, $value, $extraData = [])
 
 $event = $_REQUEST["event"];
 $event_value = $_REQUEST["event_value"];
-$page_id = $_REQUEST["page_id"];
+$site_id = $_REQUEST["site_id"];
 
 //print_r($_REQUEST);
 
@@ -120,13 +134,24 @@ $page_id = $_REQUEST["page_id"];
 
 $NewSession = false;
 
-if(isset($_COOKIE["baw_session_id"])){ 
-	$session_id = $_COOKIE["baw_session_id"];
+if(isset($_COOKIE["baw_user_id"])){ 
+	$user_id = $_COOKIE["baw_user_id"];
+}else{
+	$user_id = uniqid("",true);
+	$timelife = time() + 365*24*60*60;
+	$NewUser = true;
+	setcookie("baw_user_id", $user_id, $timelife);
+}
+
+if (isset($_SESSION["baw_session_id"]))
+{
+	$session_id = $_SESSION["baw_session_id"];
 }else{
 	$session_id = uniqid("",true);
 	$timelife = time() + 365*24*60*60;
 	$NewSession = true;
-	setcookie("baw_session_id", $session_id, $timelife);
+	$_SESSION["baw_session_id"] = $session_id ; 
+	
 }
 
 switch (trim($_REQUEST["event"])) {
@@ -154,13 +179,24 @@ switch (trim($_REQUEST["event"])) {
 			$ExtraData[] = $ExtraField;
 
 
+			if ($NewUser)
+			{
+				SaveEvent($user_id, $session_id, $site_id, "new_visit", $event_value, $ExtraData);
+			}
 			if ($NewSession)
 			{
-				SaveEvent($session_id, $page_id, "new_visit", $event_value, $ExtraData);
-			}	
+				SaveEvent($user_id, $session_id, $site_id, "new_session", $event_value, $ExtraData);
+				$e = SaveEvent($user_id, $session_id, $site_id, "time_page", 0, $ExtraData);
+
+				if ($e)
+				{
+					$_SESSION["time_page"]["id"]=$e["id"];
+					$_SESSION["time_page"]["date"]=$e["date"];
+				}
+			}
 
 			
-			SaveEvent($session_id, $page_id, "visit", $event_value, $ExtraData);
+			SaveEvent($user_id, $session_id, $site_id, "visit", $event_value, $ExtraData);
 				/*
 
 				$Data ='{

@@ -1,14 +1,14 @@
 class baw {
 
-	constructor(PageId, EventType, ExtraFields) {
-		this.PageId = PageId;
+	constructor(SiteId, EventType, ExtraFields) {
+		this.SiteId = SiteId;
 		var ExtraFields = ExtraFields;
 		this.Data = {
 			"event" : EventType,
-			"page_id" : this.PageId,
+			"site_id" : this.SiteId,
 			"referer" : document.referrer,
 			"location" : window.location.href,
-			"path" : window.location.pathnam
+			"path" : window.location.pathname
 		};
 		this.ExtraData(ExtraFields);
 				
@@ -38,7 +38,7 @@ class baw {
 	  {
 	  	var Data = {
 	  			"event" : Event,
-	  			"page_id" : this.PageId,
+	  			"site_id" : this.SiteId,
 	  			"value" : value
 	  		};
 	  		this.sendRequest(Data);
@@ -68,9 +68,6 @@ class baw {
 
 
 }
-
-b = new baw("test-1234");
-
 
 
 class Scroll{
@@ -206,7 +203,7 @@ function startTimer() {
 function sendPageTime() {
     timerPageView = new Timer(function () {
         //save page view time every 20 seconds
-        b = new baw("test-1234","timePage",{timePage : countTimePage});   
+        b = new baw("test-1234","time_page",{timePage : countTimePage});   
         sendPageTime()
     }, 20000);
     timerPageView.startTimer();
@@ -240,7 +237,7 @@ window.addEventListener("scroll", function(){
         var pctScrolled = scroll_change.amountscrolled()
          if(pctScrolled > pctAux){
             pctAux = pctScrolled
-            b = new baw("test-1234","scrollPercentage",{scrollPercentage : pctScrolled});
+            b = new baw("test-1234","scroll_percentage",{scrollPercentage : pctScrolled});
             console.log(pctScrolled)  
         } 
     }, 50)
