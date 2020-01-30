@@ -1,8 +1,10 @@
 class baw {
 
-	constructor(SiteId, EventType, ExtraFields) {
-		this.SiteId = SiteId;
-		var ExtraFields = ExtraFields;
+	constructor(SiteId, EventType) {
+        this.timeRun = true;
+        this.addEvents();
+        this.SiteId = SiteId;
+		
 		this.Data = {
 			"event" : EventType,
 			"site_id" : this.SiteId,
@@ -10,7 +12,7 @@ class baw {
 			"location" : window.location.href,
 			"path" : window.location.pathname
 		};
-		this.ExtraData(ExtraFields);
+		
 				
 		this.sendRequest(this.Data);
 	}
@@ -36,12 +38,9 @@ class baw {
 
 	  PushEventValue(Event, Value)
 	  {
-	  	var Data = {
-	  			"event" : Event,
-	  			"site_id" : this.SiteId,
-	  			"value" : value
-	  		};
-	  		this.sendRequest(Data);
+        this.Data["event"] = Event;
+        this.ExtraData(Value,Event);
+        this.sendRequest(this.Data);
 	  }
 
 
@@ -66,7 +65,90 @@ class baw {
 			});
 	  }
 
+      addEvents() {
 
+        this.timerscroll = null
+        this.visibility_change = new visibilityChange()
+        
+        document.addEventListener(this.visibility_change._visibilityEvent(), () => {
+            if (document[this.visibility_change._hidden()]) 
+            this.stopT();
+        else
+            this.resumeT();
+        })
+
+        $(window).on('load', () => {
+            this.startTimer()
+            this.sendPageTime()
+            Scroll.getmeasurements()
+        });
+
+        $(window).on('focus pageshow',() => {
+            this.resumeT();
+        });
+        
+        $(window).blur(() => {
+            this.stopT();
+        });
+
+        window.addEventListener("resize", function () {
+            Scroll.getmeasurements()
+        }, false)
+
+        var pctAux = 0,
+            changeScroll = false
+        window.addEventListener("scroll", () => {
+            clearTimeout(this.timerscroll)
+            this.timerscroll = setTimeout(() => {
+                var pctScrolled = Scroll.amountscrolled()
+                if (pctScrolled > pctAux) {
+                    pctAux = pctScrolled
+                    this.PushEventValue("scroll_percentage", {scrollPercentage : pctScrolled});
+                    console.log(pctScrolled)
+                }
+            }, 50)
+        }, false)
+    }
+
+
+    startTimer() {
+        this.timer = new Timer(() => {
+            this.countTimePage++;
+            this.startTimer();
+        }, 1000);
+        this.timer.start();
+    }
+
+    sendPageTime() {
+        this.timerPageView = new Timer(() => {
+            this.PushEventValue("time_page", {timePage : this.countTimePage});
+            this.sendPageTime();
+        }, 20000);
+        this.timerPageView.start();
+    }
+
+    stop_resume(){
+        if (document[this.visibility_change._hidden()]) 
+            this.stopT();
+        else
+            this.resumeT();
+    }
+
+    stopT() {
+        if (this.timeRun) {
+            this.timeRun = false;
+            this.timer.pause();
+            this.timerPageView.pause();
+        }
+    }
+    
+    resumeT() {
+        if (!this.timeRun) {
+            this.timeRun = true;
+            this.timer.resume();
+            this.timerPageView.resume();
+        }
+    };
 }
 
 
@@ -78,13 +160,13 @@ class Scroll{
         this.pctAux = 0
     }
 
-    getmeasurements(){
+    static getmeasurements(){
         this.winheight = $(window).height()
         this.docheight = $(document).height()
         this.trackLength = this.docheight - this.winheight
     }
 
-    amountscrolled(){ //scroll percentage
+    static amountscrolled(){ //scroll percentage
         var pctScrolled = 0
         var scrollTop = $(window).scrollTop()
         pctScrolled = Math.floor(scrollTop/this.trackLength * 100) // gets percentage scrolled (ie: 80 NaN if tracklength == 0)
@@ -130,11 +212,11 @@ class visibilityChange {
         this.visibilityEvent = visibilityChange.visibilityEvent(this.prefix)
     }
 
-    get _visibilityEvent(){
+    _visibilityEvent(){
         return this.visibilityEvent
     }
 
-    get _hidden(){
+    _hidden(){
         return this.hidden
     }
 
