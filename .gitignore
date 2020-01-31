@@ -1,3 +1,4 @@
 /api/vendor
 /api/config.php
 config.php
+api/composer.lock
