@@ -50,7 +50,7 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = []
         "e_time": "' . $timeonly . '",
         "e_type": "'. $event .'"';
 
-    if ($value != "")
+    if (isset($value) && empty($value))
     {
     	$data .=', "e_value": "'. $value.'"';
     }
@@ -198,7 +198,6 @@ switch (trim($_REQUEST["event"])) {
 			
 			SaveEvent($user_id, $session_id, $site_id, "visit", $event_value, $ExtraData);
 		break;
-	
 	default:
 		# code...
 		break;
