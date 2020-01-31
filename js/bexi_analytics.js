@@ -13,37 +13,26 @@ class baw {
 			"path" : window.location.pathname
 		};
 		
-				
+		this.collector = {
+            "event":"collector",
+            "Data": {
+                "time_page":0,
+                "scroll_percentage":0,
+                "click":0
+            }
+        }
+
 		this.sendRequest(this.Data);
 	}
 
-	ExtraData(Event, ExtraFields, value){
-        this.Data = {
-            "event" : Event,
-            "page_id" : this.PageId,
-            "value" : value
-        };
-		switch (Event) {
-			case 'time_page':
-				this.Data["timePage"] = ExtraFields["timePage"];
-				break;
-			case 'scroll_percentage':
-				this.Data["scrollPercentage"] = ExtraFields["scrollPercentage"];
-				break;
-			default:
-				break;
-		}
-	}
-
-	  PushEvent(Event, ExtraF)
+	  PushEvent(Event)
 	  {
-	  		this.PushEventValue(Event, ExtraF, 1);
+	  	this.PushEventValue(Event, 1);
 	  }
 
 
-	  PushEventValue(Event, ExtraF, value)
+	  PushEventValue(Event, value)
 	  {
-        this.ExtraData(Event, ExtraF, value);
         this.sendRequest(this.Data);
 	  }
 
@@ -82,9 +71,10 @@ class baw {
         })
 
         $(window).on('load', () => {
-            this.startTimer()
-            this.sendPageTime()
-            Scroll.getmeasurements()
+            this.startTimer();
+            this.sendPageTime();
+            this.sendCollect();
+            Scroll.getmeasurements();
         });
 
         $(window).on('focus pageshow',() => {
@@ -107,11 +97,15 @@ class baw {
                 var pctScrolled = Scroll.amountscrolled()
                 if (pctScrolled > pctAux) {
                     pctAux = pctScrolled
-                    this.PushEvent("scroll_percentage", {scrollPercentage : pctScrolled});
+                    this.collector.Data.scroll_percentage = pctScrolled;
                     console.log(pctScrolled)
                 }
             }, 50)
         }, false)
+
+        $(".bexi_button, .bexi_link").on('click', ()=>{
+            this.collector.Data.click++;
+        });
     }
 
 
@@ -125,10 +119,18 @@ class baw {
 
     sendPageTime() {
         this.timerPageView = new Timer(() => {
-            this.PushEvent("time_page", {timePage : this.countTimePage});
+            this.collector.Data.time_page = this.countTimePage;
             this.sendPageTime();
-        }, 20000);
+        }, 10000);
         this.timerPageView.start();
+    }
+
+    sendCollect() {
+        this.timerCollect = new Timer(() => {
+            this.sendRequest(this.collector);
+            this.sendCollect();
+        }, 22000);
+        this.timerCollect.start();
     }
 
     stopT() {
@@ -136,6 +138,7 @@ class baw {
             this.timeRun = false;
             this.timer.pause();
             this.timerPageView.pause();
+            this.timerCollect.pause();
         }
     }
     
@@ -144,6 +147,7 @@ class baw {
             this.timeRun = true;
             this.timer.resume();
             this.timerPageView.resume();
+            this.timerCollect.resume();
         }
     };
 }
