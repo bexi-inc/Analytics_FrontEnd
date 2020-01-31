@@ -24,7 +24,7 @@ $Dynamodb = $sdk->createDynamoDb();
 $Marshaler = new Marshaler();
 
 
-// FUNCTION TO DAVE EVENTS SON DYNAMODB
+// FUNCTION TO SAVE EVENTS ON DYNAMODB
 function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = [])
 {
 	global $Marshaler;
@@ -50,7 +50,7 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = []
         "e_time": "' . $timeonly . '",
         "e_type": "'. $event .'"';
 
-    if (isset($value) && empty($value))
+    if (isset($value) && $value!=="")
     {
     	$data .=', "e_value": "'. $value.'"';
     }
@@ -122,6 +122,49 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = []
 
 }
 
+// FUNCTION TO UPDATE EVENTS ON DYNAMODB
+function updateEvent($event_id,$full_date,$value){
+	global $Marshaler;
+	global $Dynamodb;
+
+
+	$JupdateData ='{
+		":evalue" : "'.$value.'"
+	}';
+	$UpdateExpression="set e_value =:evalue";
+
+	$Jkey = '
+	    {
+			"e_id": "'.$event_id.'",
+			"e_fulldate" : "'.$full_date.'"
+	    }
+	';
+
+	$key = $Marshaler->marshalJson($Jkey);
+
+	$data = $Marshaler->marshalJson($JupdateData);
+
+
+	$params = [
+	    'TableName' => 'baw_events',
+	    'Key' => $key,
+	    'UpdateExpression' => $UpdateExpression,
+	    'ExpressionAttributeValues'=> $data,
+	    'ReturnValues' => 'UPDATED_NEW'
+	];
+
+	$ret["error"]="";
+	try {
+	    $result = $Dynamodb->updateItem($params);
+	    $ret["result"]=$result['Attributes'];
+	} catch (DynamoDbException $e) {
+	    $ret["error"]= $e->getMessage();
+	}
+
+	return $ret;
+
+
+}
 
 
 $event = $_REQUEST["event"];
@@ -155,7 +198,6 @@ if (isset($_SESSION["baw_session_id"]))
 }
 
 switch (trim($_REQUEST["event"])) {
-	case '':
 	case 'visit':
 			$ExtraField["name"] = "path";
 			if ($_REQUEST["path"] != "")
@@ -195,8 +237,26 @@ switch (trim($_REQUEST["event"])) {
 				}
 			}
 
-			
+
 			SaveEvent($user_id, $session_id, $site_id, "visit", $event_value, $ExtraData);
+		break;
+	case 'collector':
+
+			foreach ($_REQUEST["Data"] as $index => $item) {
+				if ( isset($_SESSION[$item["name"]]["id"]) && isset($_SESSION[$item["name"]]["date"]) )
+				{
+					updateEvent($_SESSION[$item["name"]]["id"],$_SESSION[$item["name"]]["date"],$item["value"]);
+				}
+				else{
+					$e = SaveEvent($user_id, $session_id, $site_id, $item["name"], $item["value"]);
+
+					if ($e)
+					{
+						$_SESSION[$item["name"]]["id"]=$e["id"];
+						$_SESSION[$item["name"]]["date"]=$e["date"];
+					}
+				}
+			}
 		break;
 	default:
 		# code...
