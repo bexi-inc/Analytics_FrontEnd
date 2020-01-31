@@ -6,7 +6,7 @@ class baw {
         this.SiteId = SiteId;
 		
 		this.Data = {
-			"event" : EventType,
+			"event" : "visit",
 			"site_id" : this.SiteId,
 			"referer" : document.referrer,
 			"location" : window.location.href,
@@ -18,6 +18,11 @@ class baw {
 	}
 
 	ExtraData(ExtraFields, Event){
+        this.Data = {
+            "event" : Event,
+            "page_id" : this.PageId,
+            "value" : value
+        };
 		switch (Event) {
 			case 'time_page':
 				this.Data["timePage"] = ExtraFields["timePage"];
@@ -86,10 +91,10 @@ class baw {
         $(window).on('focus pageshow',() => {
             this.resumeT();
         });
-        
-        $(window).blur(() => {
+    
+        window.addEventListener('blur', () =>{
             this.stopT();
-        });
+          });
 
         window.addEventListener("resize", function () {
             Scroll.getmeasurements()
@@ -125,13 +130,6 @@ class baw {
             this.sendPageTime();
         }, 20000);
         this.timerPageView.start();
-    }
-
-    stop_resume(){
-        if (document[this.visibility_change._hidden()]) 
-            this.stopT();
-        else
-            this.resumeT();
     }
 
     stopT() {
@@ -182,7 +180,7 @@ class Timer{
         this.timerId, this.start, this.remaining = delay;
     }
 
-    startTimer(){
+    start(){
         this.resume();
     }
 
@@ -199,7 +197,7 @@ class Timer{
 
     reset() {
         clearTimeout(this);
-        this.startTimer();
+        this.start();
     }
 }
 
