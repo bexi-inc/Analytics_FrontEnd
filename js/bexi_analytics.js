@@ -17,7 +17,7 @@ class baw {
 		this.sendRequest(this.Data);
 	}
 
-	ExtraData(ExtraFields, Event){
+	ExtraData(ExtraFields, Event,value){
         this.Data = {
             "event" : Event,
             "page_id" : this.PageId,
