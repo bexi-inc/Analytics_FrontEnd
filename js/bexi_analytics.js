@@ -17,8 +17,8 @@ class baw {
 		this.sendRequest(this.Data);
 	}
 
-	ExtraData(ExtraFields){
-		switch (this.Event) {
+	ExtraData(ExtraFields, Event){
+		switch (Event) {
 			case 'time_page':
 				this.Data["timePage"] = ExtraFields["timePage"];
 				break;
@@ -39,7 +39,7 @@ class baw {
 	  PushEventValue(Event, Value)
 	  {
         this.Data["event"] = Event;
-        this.ExtraData(Value,Event);
+        this.ExtraData(Value, Event);
         this.sendRequest(this.Data);
 	  }
 
