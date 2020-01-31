@@ -17,7 +17,7 @@ class baw {
 		this.sendRequest(this.Data);
 	}
 
-	ExtraData(ExtraFields, Event,value){
+	ExtraData(Event, ExtraFields, value){
         this.Data = {
             "event" : Event,
             "page_id" : this.PageId,
@@ -35,16 +35,15 @@ class baw {
 		}
 	}
 
-	  PushEvent(Event)
+	  PushEvent(Event, ExtraF)
 	  {
-	  		this.PushEventValue(Event,1);
+	  		this.PushEventValue(Event, ExtraF, 1);
 	  }
 
 
-	  PushEventValue(Event, Value)
+	  PushEventValue(Event, ExtraF, value)
 	  {
-        this.Data["event"] = Event;
-        this.ExtraData(Value, Event);
+        this.ExtraData(Event, ExtraF, value);
         this.sendRequest(this.Data);
 	  }
 
@@ -108,7 +107,7 @@ class baw {
                 var pctScrolled = Scroll.amountscrolled()
                 if (pctScrolled > pctAux) {
                     pctAux = pctScrolled
-                    this.PushEventValue("scroll_percentage", {scrollPercentage : pctScrolled});
+                    this.PushEvent("scroll_percentage", {scrollPercentage : pctScrolled});
                     console.log(pctScrolled)
                 }
             }, 50)
@@ -126,7 +125,7 @@ class baw {
 
     sendPageTime() {
         this.timerPageView = new Timer(() => {
-            this.PushEventValue("time_page", {timePage : this.countTimePage});
+            this.PushEvent("time_page", {timePage : this.countTimePage});
             this.sendPageTime();
         }, 20000);
         this.timerPageView.start();
