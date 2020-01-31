@@ -42,8 +42,8 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = []
 	$data='
     {
         "site_id": "' . $site_id . '",
-        "user_id" : "' . $session . '",
-        "session_id" : "' . $user_id . '",
+        "user_id" : "' . $user_id . '",
+        "session_id" : "' . $session . '",
         "e_id": "' . $event_id . '",
         "e_fulldate": "' . $full_date . '",
         "e_date": "' . $dateonly . '",
@@ -197,37 +197,6 @@ switch (trim($_REQUEST["event"])) {
 
 			
 			SaveEvent($user_id, $session_id, $site_id, "visit", $event_value, $ExtraData);
-				/*
-
-				$Data ='{
-				"deliverable_id" : "'.$pid.'"
-				,"project_id" : "'.$projectid.'"
-				,"date_create" : "'.$pid.'"
-				,"dev_status" : "0"
-				,"winner_id" : "'.$winner.'" 
-				,"html_code" : "'.$winner_code.'" 
-				,"loser_id" : "'.$loser.'" 
-				,"loser_code" : "'.$loser_code.'" 
-				,"type" : "'.$type.'" 
-				,"domain_status" : "0"
-			';
-			$Data = $Data . '}';
-			
-				$item = $Marshaler->marshalJson($paramsJson);
-
-			$params = [
-			    'TableName' => ($useprefix ? $db_prefix : '').$tableName,
-			    'Item' => $item
-			];
-
-			$ret["error"]="";
-			try {
-			    $result = $Dynamodb->putItem($params);
-			    //return true;
-			} catch (DynamoDbException $e) {
-			    $ret["error"] = $e->getMessage();
-			}
-				*/
 		break;
 	
 	default:
