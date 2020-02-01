@@ -16,6 +16,9 @@ class baw {
 		this.collector = {
             "event":"collector",
             "site_id" : this.SiteId,
+            "referer" : document.referrer,
+			"location" : window.location.href,
+			"path" : window.location.pathname,
             "Data": {
                 "time_page":0,
                 "scroll_percentage":0,
