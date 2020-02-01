@@ -110,10 +110,10 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = []
 
 	    if ($result)
 	    {
-	    	$event["id"] = $event_id;
-	    	$event["date"] = $full_date;
+	    	$out["id"] = $event_id;
+	    	$out["date"] = $full_date;
 
-	    	return $event;
+	    	return $out;
 	    }
 	    //return true;
 	} catch (DynamoDbException $e) {
@@ -241,7 +241,7 @@ switch (trim($_REQUEST["event"])) {
 			SaveEvent($user_id, $session_id, $site_id, "visit", $event_value, $ExtraData);
 		break;
 	case 'collector':
-
+		print_r($_REQUEST["Data"]);
 			foreach ($_REQUEST["Data"] as $index => $item) {
 				if ( isset($_SESSION[$index]["id"]) && isset($_SESSION[$index]["date"]) )
 				{
