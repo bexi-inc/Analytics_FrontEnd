@@ -243,17 +243,17 @@ switch (trim($_REQUEST["event"])) {
 	case 'collector':
 
 			foreach ($_REQUEST["Data"] as $index => $item) {
-				if ( isset($_SESSION[$item["name"]]["id"]) && isset($_SESSION[$item["name"]]["date"]) )
+				if ( isset($_SESSION[$index]["id"]) && isset($_SESSION[$index]["date"]) )
 				{
-					updateEvent($_SESSION[$item["name"]]["id"],$_SESSION[$item["name"]]["date"],$item["value"]);
+					updateEvent($_SESSION[$index]["id"],$_SESSION[$index]["date"],$item);
 				}
 				else{
-					$e = SaveEvent($user_id, $session_id, $site_id, $item["name"], $item["value"]);
+					$e = SaveEvent($user_id, $session_id, $site_id, $index, $item);
 
 					if ($e)
 					{
-						$_SESSION[$item["name"]]["id"]=$e["id"];
-						$_SESSION[$item["name"]]["date"]=$e["date"];
+						$_SESSION[$index]["id"]=$e["id"];
+						$_SESSION[$index]["date"]=$e["date"];
 					}
 				}
 			}
