@@ -15,6 +15,7 @@ class baw {
 		
 		this.collector = {
             "event":"collector",
+            "site_id" : this.SiteId,
             "Data": {
                 "time_page":0,
                 "scroll_percentage":0,
@@ -89,8 +90,7 @@ class baw {
             Scroll.getmeasurements()
         }, false)
 
-        var pctAux = 0,
-            changeScroll = false
+        var pctAux = 0
         window.addEventListener("scroll", () => {
             clearTimeout(this.timerscroll)
             this.timerscroll = setTimeout(() => {
