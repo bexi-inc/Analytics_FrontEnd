@@ -241,14 +241,35 @@ switch (trim($_REQUEST["event"])) {
 			SaveEvent($user_id, $session_id, $site_id, "visit", $event_value, $ExtraData);
 		break;
 	case 'collector':
-		print_r($_REQUEST["Data"]);
 			foreach ($_REQUEST["Data"] as $index => $item) {
 				if ( isset($_SESSION[$index]["id"]) && isset($_SESSION[$index]["date"]) )
 				{
 					updateEvent($_SESSION[$index]["id"],$_SESSION[$index]["date"],$item);
 				}
 				else{
-					$e = SaveEvent($user_id, $session_id, $site_id, $index, $item);
+
+					$ExtraField["name"] = "path";
+					if ($_REQUEST["path"] != "")
+					{
+						$ExtraField["value"] = $_REQUEST["path"];
+					}else{
+						$ExtraField["value"] = "/";
+					}
+
+
+					$ExtraData[] = $ExtraField;
+
+					$ExtraField["name"] = "location";
+					$ExtraField["value"] = $_REQUEST["location"];
+
+					$ExtraData[] = $ExtraField;
+
+					$ExtraField["name"] = "referer";
+					$ExtraField["value"] = $_REQUEST["referer"];
+
+					$ExtraData[] = $ExtraField;
+
+					$e = SaveEvent($user_id, $session_id, $site_id, $index, $item,$ExtraData);
 
 					if ($e)
 					{
