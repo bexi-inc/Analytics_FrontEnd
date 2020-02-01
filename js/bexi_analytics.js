@@ -4,7 +4,7 @@ class baw {
         this.timeRun = true;
         this.addEvents();
         this.SiteId = SiteId;
-		
+		this.countTimePage = 0;
 		this.Data = {
 			"event" : "visit",
 			"site_id" : this.SiteId,
