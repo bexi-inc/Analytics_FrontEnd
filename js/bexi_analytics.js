@@ -108,7 +108,6 @@ class baw {
 
         $(".bexi_button, .bexi_link").on('click', ()=>{
             this.collector.Data.click++;
-            console.log(this.collector);
         });
     }
 
