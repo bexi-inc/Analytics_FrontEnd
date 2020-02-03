@@ -2,10 +2,12 @@ class baw {
 
 	constructor(SiteId, EventType) {
         this.timeRun = true;
+        this.countTimePage = 0;
+        this.countSend = 0;
         this.addEvents();
         this.SiteId = SiteId;
-		this.countTimePage = 0;
-		this.Data = {
+        
+		var Data = {
 			"event" : "visit",
 			"site_id" : this.SiteId,
 			"referer" : document.referrer,
@@ -26,7 +28,7 @@ class baw {
             }
         }
 
-		this.sendRequest(this.Data);
+		this.sendRequest(Data);
 	}
 
 	  PushEvent(Event)
@@ -37,7 +39,12 @@ class baw {
 
 	  PushEventValue(Event, value)
 	  {
-        this.sendRequest(this.Data);
+        var Data = {
+            "event" : Event,
+            "page_id" : this.PageId,
+            "value" : value
+        };
+        this.sendRequest(Data);
 	  }
 
 
@@ -59,7 +66,7 @@ class baw {
 				    }
 				});
 
-			});
+            });
 	  }
 
       addEvents() {
@@ -69,15 +76,13 @@ class baw {
         
         document.addEventListener(this.visibility_change._visibilityEvent(), () => {
             if (document[this.visibility_change._hidden()]) 
-            this.stopT();
-        else
-            this.resumeT();
+                this.stopT();
+            else
+                this.resumeT();
         })
 
         $(window).on('load', () => {
             this.startTimer();
-            this.sendPageTime();
-            this.sendCollect();
             Scroll.getmeasurements();
         });
 
@@ -99,9 +104,8 @@ class baw {
             this.timerscroll = setTimeout(() => {
                 var pctScrolled = Scroll.amountscrolled()
                 if (pctScrolled > pctAux) {
-                    pctAux = pctScrolled
+                    pctAux = pctScrolled;
                     this.collector.Data.scroll_percentage = pctScrolled;
-                    console.log(pctScrolled)
                 }
             }, 50)
         }, false)
@@ -112,36 +116,24 @@ class baw {
     }
 
 
-    startTimer() {
+    startTimer() {  
         this.timer = new Timer(() => {
             this.countTimePage++;
+            this.countSend++;
+            if(this.countSend == 20){
+                this.collector.Data.time_page = this.countTimePage;
+                this.countSend = 0;
+                this.sendRequest(this.collector);
+            }
             this.startTimer();
         }, 1000);
         this.timer.start();
-    }
-
-    sendPageTime() {
-        this.timerPageView = new Timer(() => {
-            this.collector.Data.time_page = this.countTimePage;
-            this.sendPageTime();
-        }, 10000);
-        this.timerPageView.start();
-    }
-
-    sendCollect() {
-        this.timerCollect = new Timer(() => {
-            this.sendRequest(this.collector);
-            this.sendCollect();
-        }, 22000);
-        this.timerCollect.start();
     }
 
     stopT() {
         if (this.timeRun) {
             this.timeRun = false;
             this.timer.pause();
-            this.timerPageView.pause();
-            this.timerCollect.pause();
         }
     }
     
@@ -149,8 +141,6 @@ class baw {
         if (!this.timeRun) {
             this.timeRun = true;
             this.timer.resume();
-            this.timerPageView.resume();
-            this.timerCollect.resume();
         }
     };
 }

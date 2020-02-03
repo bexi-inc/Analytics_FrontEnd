@@ -7,9 +7,8 @@
     <script type="text/javascript" src="js/bexi_analytics.js"></script>
  </head>
  <body style="height: 200vh;overflow-x: scroll;">
-    <p id="log">Click on this document to give it focus.</p>
-    <button class="bexi_button">presiona</button><br>
-    <a href="#" class="bexi_button">presiona</a>
+    <button class="bexi_button">click</button><br>
+    <a href="#" class="bexi_button">click</a>
 </body>
 <script type="text/javascript">
     	b = new baw("test-1234");
