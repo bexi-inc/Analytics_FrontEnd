@@ -28,6 +28,9 @@ class baw {
             }
         }
 
+        if(this.collector.Data.scroll_percentage == 0 && $(document).height() <= $(window).height())
+            this.collector.Data.scroll_percentage = 100;
+
 		this.sendRequest(Data);
 	}
 
@@ -57,7 +60,7 @@ class baw {
 					type: "POST",
 				    // Formato de datos que se espera en la respuesta
 				    dataType: "json",
-					url: 'api/analytics.php',
+					url: 'http://analytics.bexi.ai/api/analytics.php',
 					success: function(respuesta) {
 						console.log(respuesta);
 					},
@@ -120,7 +123,7 @@ class baw {
         this.timer = new Timer(() => {
             this.countTimePage++;
             this.countSend++;
-            if(this.countSend == 20){
+            if(this.countSend == 10){
                 this.collector.Data.time_page = this.countTimePage;
                 this.countSend = 0;
                 this.sendRequest(this.collector);

@@ -6,7 +6,7 @@
     
     <script type="text/javascript" src="js/bexi_analytics.js"></script>
  </head>
- <body style="height: 200vh;overflow-x: scroll;">
+ <body>
     <button class="bexi_button">click</button><br>
     <a href="#" class="bexi_button">click</a>
 </body>
