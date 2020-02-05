@@ -1,10 +1,12 @@
 <?
+session_start();
+
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Set-Cookie, Cookie, Bearer");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 header("Access-Control-Allow-Credentials: true");
-session_start();
+
 
 require 'vendor/autoload.php';
 require 'config.php';
@@ -195,6 +197,9 @@ if(isset($_COOKIE["baw_user_id"])){
 print_r($_SESSION);
 
 print_r(session_id());
+
+
+echo session_save_path();
 
 
 if (isset($_SESSION["baw_session_id"]))
