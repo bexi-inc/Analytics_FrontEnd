@@ -192,6 +192,10 @@ if(isset($_COOKIE["baw_user_id"])){
 
 
 print_r($_SESSION);
+
+print_r(session_id());
+
+
 if (isset($_SESSION["baw_session_id"]))
 {
 	$session_id = $_SESSION["baw_session_id"];

@@ -11,6 +11,6 @@
     <a href="#" class="bexi_button">click</a>
 </body>
 <script type="text/javascript">
-    	b = new baw("test-1234");
+    	b = new baw("1580426700.3482");
 </script>
  </html>
