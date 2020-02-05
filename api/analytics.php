@@ -1,4 +1,6 @@
 <?
+
+header("Access-Control-Allow-Origin: *");
 session_start();
 
 require 'vendor/autoload.php';
