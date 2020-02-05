@@ -220,6 +220,8 @@ switch (trim($_REQUEST["event"])) {
 
 			$ExtraData[] = $ExtraField;
 
+			//print_R($ExtraData);
+
 
 			if ($NewUser)
 			{
