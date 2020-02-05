@@ -193,6 +193,8 @@ if(isset($_COOKIE["baw_user_id"])){
 	setcookie("baw_user_id", $user_id, $timelife);
 }
 
+print_r($_COOKIE);
+
 
 print_r($_SESSION);
 
