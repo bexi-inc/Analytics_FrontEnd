@@ -190,12 +190,13 @@ if(isset($_COOKIE["baw_user_id"])){
 	setcookie("baw_user_id", $user_id, $timelife);
 }
 
+
+print_r($_SESSION);
 if (isset($_SESSION["baw_session_id"]))
 {
 	$session_id = $_SESSION["baw_session_id"];
 }else{
 	$session_id = uniqid("",true);
-	$timelife = time() + 365*24*60*60;
 	$NewSession = true;
 	$_SESSION["baw_session_id"] = $session_id ; 
 	
