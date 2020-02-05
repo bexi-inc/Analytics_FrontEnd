@@ -60,7 +60,7 @@ class baw {
 					type: "POST",
 				    // Formato de datos que se espera en la respuesta
 				    dataType: "json",
-					url: 'api/analytics.php',
+					url: 'http://analytics.bexi.ai/api/analytics.php',
 					success: function(respuesta) {
 						console.log(respuesta);
 					},
