@@ -241,7 +241,7 @@ switch (trim($_REQUEST["event"])) {
 		break;
 	case 'collector':
 			foreach ($_REQUEST["Data"] as $index => $item) {
-				if ( isset($item["id"]) && isset($item["date"]) )
+				if ( isset($item["id"]) && isset($item["date"]) && $item["id"]!=="" && $item["date"]!=="")
 				{
 					updateEvent($item["id"],$item["date"],$item["value"]);
 				}
