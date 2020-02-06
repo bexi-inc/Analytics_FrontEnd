@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fece035f174dadf0c1b948fcebd3851a",
+    "content-hash": "9d6363eb3f076511745d96fa17661bc1",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -478,46 +478,6 @@
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
-            "name": "snowplow/referer-parser",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/snowplow-referer-parser/referer-parser.git",
-                "reference": "6c68c1ad2136f3874da0477c903b5f203160f53f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/snowplow-referer-parser/referer-parser/zipball/6c68c1ad2136f3874da0477c903b5f203160f53f",
-                "reference": "6c68c1ad2136f3874da0477c903b5f203160f53f",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.*",
-                "symfony/yaml": "*"
-            },
-            "suggest": {
-                "symfony/yaml": "Support for YAML configuration file"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Snowplow\\RefererParser": "php/src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lars Strojny",
-                    "email": "lars@strojny.net"
-                }
-            ],
-            "description": "Snowplow Refer(r)er parser for PHP",
-            "time": "2020-01-22T16:58:53+00:00"
-        },
-        {
             "name": "symfony/polyfill-mbstring",
             "version": "v1.13.1",
             "source": {
@@ -580,9 +540,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "snowplow/referer-parser": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

@@ -16,7 +16,6 @@ date_default_timezone_set('UTC');
 use Aws\DynamoDb\Exception\DynamoDbException;
 use Aws\DynamoDb\Marshaler;
 
-use Snowplow\RefererParser\Parser;
 
 //echo "Tiempo 3 : ".(microtime(true) - $timeini)."<br>";
 
@@ -220,26 +219,7 @@ switch (trim($_REQUEST["event"])) {
 			$ExtraField["value"] = $_REQUEST["referer"];
 			$ExtraData[] = $ExtraField;
 
-			echo "PARSE";
-			$parser = new Parser();
-			$referer = $parser->parse(
-		    	'http://www.google.com/search?q=gateway+oracle+cards+denise+linn&hl=en&client=safari'
-			);
-
-			print_r($referer);
-
-			if ($referer->isKnown()) {
-				$ExtraField["name"] = "referer_type";
-				$ExtraField["value"] = $referer->getMedium();
-				$ExtraData[] = $ExtraField;
-			   
-			    echo $referer->getSearchTerm();   // "gateway oracle cards denise linn"
-			}else{
-				$ExtraField["name"] = "referer_type";
-				$ExtraField["value"] = "Other";
-				$ExtraData[] = $ExtraField;
-			}
-
+			
 			
 
 
@@ -291,23 +271,7 @@ switch (trim($_REQUEST["event"])) {
 
 					$ExtraData[] = $ExtraField;
 
-					$parser = new Parser();
-					$referer = $parser->parse(
-				    	'http://www.google.com/search?q=gateway+oracle+cards+denise+linn&hl=en&client=safari'
-					);
-
-					if ($referer->isKnown()) {
-						$ExtraField["name"] = "referer_type";
-						$ExtraField["value"] = $referer->getMedium();
-						$ExtraData[] = $ExtraField;
-					   
-					    echo $referer->getSearchTerm();   // "gateway oracle cards denise linn"
-					}else{
-						$ExtraField["name"] = "referer_type";
-						$ExtraField["value"] = "Other";
-						$ExtraData[] = $ExtraField;
-					}
-
+					
 					$e = SaveEvent($user_id, $session_id, $site_id, $index, $item["value"],$ExtraData);
 
 					if ($e)
