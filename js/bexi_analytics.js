@@ -2,17 +2,19 @@ class baw {
 
 	constructor(SiteId, EventType) {
         this.timeRun = true;
+        this.timer=null;
         this.countTimePage = 0;
         this.countSend = 0;
         this.addEvents();
         this.SiteId = SiteId;
-        
 		var Data = {
 			"event" : "visit",
 			"site_id" : this.SiteId,
 			"referer" : document.referrer,
 			"location" : window.location.href,
-			"path" : window.location.pathname
+            "path" : window.location.pathname,
+            "baw_user_id": Cookies.get('baw_user_id'),
+            "baw_session_id": Cookies.get('baw_session_id')
 		};
 		
 		this.collector = {
@@ -20,16 +22,30 @@ class baw {
             "site_id" : this.SiteId,
             "referer" : document.referrer,
 			"location" : window.location.href,
-			"path" : window.location.pathname,
+            "path" : window.location.pathname,
+            "baw_user_id": Cookies.get('baw_user_id'),
+            "baw_session_id": Cookies.get('baw_session_id'),
             "Data": {
-                "time_page":0,
-                "scroll_percentage":0,
-                "click":0
+                "time_page":{
+                    "id" : null,
+                    "date" : null,
+                    "value" : 0
+                },
+                "scroll_percentage":{
+                    "id" : null,
+                    "date" : null,
+                    "value" : 0
+                },
+                "click":{
+                    "id" : null,
+                    "date" : null,
+                    "value" : 0
+                }
             }
         }
 
-        if(this.collector.Data.scroll_percentage == 0 && $(document).height() <= $(window).height())
-            this.collector.Data.scroll_percentage = 100;
+        if(this.collector.Data.scroll_percentage.value == 0 && $(document).height() <= $(window).height())
+            this.collector.Data.scroll_percentage.value = 100;
 
 		this.sendRequest(Data);
 	}
@@ -53,27 +69,32 @@ class baw {
 
 	  sendRequest(DataRequest)
 	  {
-	  	$(function() {
+        $.ajax({
+            data: DataRequest,
+            type: "POST",
+            // Formato de datos que se espera en la respuesta
+            dataType: "json",
+            url: 'http://analytics.bexi.ai/api/analytics.php',
+            success: (data) =>{
 
-				$.ajax({
-					data: DataRequest,
-					type: "POST",
-				    // Formato de datos que se espera en la respuesta
-				    dataType: "json",
-                    url: 'http://analytics.bexi.ai/api/analytics.php',
-                    xhrFields: {
-                        withCredentials: true
-                     },
-                    crossDomain: true,
-					success: function(respuesta) {
-						console.log(respuesta);
-					},
-					error: function() {
-				        console.log("No se ha podido obtener la información");
-				    }
-				});
+                if(data["baw_user_id"]){
+                    Cookies.set('baw_user_id', data["baw_user_id"], { expires: 365 });
+                }
 
-            });
+                if(data["baw_session_id"]){
+                    Cookies.set('baw_session_id', data["baw_session_id"]);
+                }
+                console.log(this);
+                $.each(data["events"], ( index, value ) => {
+                    this.collector.Data[value["name"]]["id"]=value["id"];
+                    this.collector.Data[value["name"]]["date"]=value["date"];
+                });
+
+            },
+            error: function() {
+                console.log("No se ha podido obtener la información");
+            }
+        });
 	  }
 
       addEvents() {
@@ -112,13 +133,13 @@ class baw {
                 var pctScrolled = Scroll.amountscrolled()
                 if (pctScrolled > pctAux) {
                     pctAux = pctScrolled;
-                    this.collector.Data.scroll_percentage = pctScrolled;
+                    this.collector.Data.scroll_percentage.value = pctScrolled;
                 }
             }, 50)
         }, false)
 
         $(".bexi_button, .bexi_link").on('click', ()=>{
-            this.collector.Data.click++;
+            this.collector.Data.click.value++;
         });
     }
 
@@ -128,7 +149,7 @@ class baw {
             this.countTimePage++;
             this.countSend++;
             if(this.countSend == 10){
-                this.collector.Data.time_page = this.countTimePage;
+                this.collector.Data.time_page.value = this.countTimePage;
                 this.countSend = 0;
                 this.sendRequest(this.collector);
             }
