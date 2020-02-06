@@ -292,7 +292,7 @@ switch (trim($_REQUEST["event"])) {
 	}
 	$res["events"] = $events;
 	$res["error"]=0;
-	echo  json_encode($res);
+	echo json_encode($res);
 }
 
 ?>
