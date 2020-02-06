@@ -225,6 +225,8 @@ switch (trim($_REQUEST["event"])) {
 		    	'http://www.google.com/search?q=gateway+oracle+cards+denise+linn&hl=en&client=safari'
 			);
 
+			print_r($referer);
+			
 			if ($referer->isKnown()) {
 				$ExtraField["name"] = "referer_type";
 				$ExtraField["value"] = $referer->getMedium();
