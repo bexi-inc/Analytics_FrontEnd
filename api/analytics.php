@@ -283,16 +283,16 @@ switch (trim($_REQUEST["event"])) {
 	default:
 		# code...
 		break;
-
-	if($NewUser){
-		$res["baw_user_id"]=$user_id;
-	}
-	if($NewSession){
-		$res["baw_session_id"]=$session_id;
-	}
-	$res["events"] = $events;
-	$res["error"]=0;
-	echo json_encode($res);
 }
+
+if($NewUser){
+	$res["baw_user_id"]=$user_id;
+}
+if($NewSession){
+	$res["baw_session_id"]=$session_id;
+}
+$res["events"] = $events;
+$res["error"]=0;
+echo json_encode($res);
 
 ?>
