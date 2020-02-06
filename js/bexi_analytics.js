@@ -84,7 +84,7 @@ class baw {
                 if(data["baw_session_id"]){
                     Cookies.set('baw_session_id', data["baw_session_id"]);
                 }
-                console.log(this);
+
                 $.each(data["events"], ( index, value ) => {
                     this.collector.Data[value["name"]]["id"]=value["id"];
                     this.collector.Data[value["name"]]["date"]=value["date"];
@@ -102,17 +102,17 @@ class baw {
         this.timerscroll = null
         this.visibility_change = new visibilityChange()
         
+        $(document).ready( ()=> {
+            this.startTimer();
+            Scroll.getmeasurements();
+        });
+
         document.addEventListener(this.visibility_change._visibilityEvent(), () => {
             if (document[this.visibility_change._hidden()]) 
                 this.stopT();
             else
                 this.resumeT();
         })
-
-        $(window).on('load', () => {
-            this.startTimer();
-            Scroll.getmeasurements();
-        });
 
         $(window).on('focus pageshow',() => {
             this.resumeT();
