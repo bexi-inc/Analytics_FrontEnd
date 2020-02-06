@@ -32,6 +32,12 @@ $Dynamodb = $sdk->createDynamoDb();
 $Marshaler = new Marshaler();
 
 
+$str = file_get_contents('Data/referrer.json');
+$ref_data = json_decode($str);
+
+print_r($ref_data);
+
+
 // FUNCTION TO SAVE EVENTS ON DYNAMODB
 function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = [])
 {
@@ -172,6 +178,22 @@ function updateEvent($event_id,$full_date,$value){
 
 
 }
+
+
+function parse_referrer($url, $data)
+{
+    if ($url === null) {
+        return null;
+    }
+
+    $parts = parse_url($url);
+    if (!isset($parts['scheme']) || !in_array(strtolower($parts['scheme']), ['http', 'https'])) {
+        return null;
+    }
+
+    return array_merge(['query' => null, 'path' => '/'], $parts);
+}
+
 
 
 $event = $_REQUEST["event"];
