@@ -1,6 +1,7 @@
 {
     "require": {
         "aws/aws-sdk-php": "^3.133",
-        "donatj/phpuseragentparser": "*"
+        "donatj/phpuseragentparser": "*",
+        "snowplow/referer-parser" : "dev-master"
     }
 }
