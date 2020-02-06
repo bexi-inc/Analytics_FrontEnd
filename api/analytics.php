@@ -105,7 +105,6 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = []
 
     $data .= "}";
 
-    print_r($data);
 	$item = $Marshaler->marshalJson($data);
 	$params = [
 	    'TableName' => "baw_events",
@@ -178,42 +177,25 @@ $event = $_REQUEST["event"];
 $event_value = $_REQUEST["event_value"];
 $site_id = $_REQUEST["site_id"];
 
-//print_r($_REQUEST);
-
-//print_r($_SERVER);
 
 $NewSession = false;
 
-if(isset($_COOKIE["baw_user_id"])){ 
-	$user_id = $_COOKIE["baw_user_id"];
+if(isset($_REQUEST["baw_user_id"]) && $_REQUEST["baw_user_id"]!=="undefined"){
+	$user_id = $_REQUEST["baw_user_id"];
 }else{
 	$user_id = uniqid("",true);
-	$timelife = time() + 365*24*60*60;
 	$NewUser = true;
-	setcookie("baw_user_id", $user_id, $timelife);
 }
 
-print_r($_COOKIE);
 
-
-print_r($_SESSION);
-
-print_r(session_id());
-
-
-echo session_save_path();
-
-
-if (isset($_SESSION["baw_session_id"]))
+if (isset($_REQUEST["baw_session_id"]) && $_REQUEST["baw_session_id"]!=="undefined")
 {
-	$session_id = $_SESSION["baw_session_id"];
+	$session_id = $_REQUEST["baw_session_id"];
 }else{
 	$session_id = uniqid("",true);
 	$NewSession = true;
-	$_SESSION["baw_session_id"] = $session_id ; 
-	
 }
-
+$events=[];
 switch (trim($_REQUEST["event"])) {
 	case 'visit':
 			$ExtraField["name"] = "path";
@@ -237,8 +219,6 @@ switch (trim($_REQUEST["event"])) {
 
 			$ExtraData[] = $ExtraField;
 
-			//print_R($ExtraData);
-
 
 			if ($NewUser)
 			{
@@ -251,19 +231,19 @@ switch (trim($_REQUEST["event"])) {
 
 				if ($e)
 				{
-					$_SESSION["time_page"]["id"]=$e["id"];
-					$_SESSION["time_page"]["date"]=$e["date"];
+					$temporal["name"]="time_page";
+					$temporal["id"]=$e["id"];
+					$temporal["date"]=$e["date"];
+					$events[]=$temporal;
 				}
 			}
-
-
 			SaveEvent($user_id, $session_id, $site_id, "visit", $event_value, $ExtraData);
 		break;
 	case 'collector':
 			foreach ($_REQUEST["Data"] as $index => $item) {
-				if ( isset($_SESSION[$index]["id"]) && isset($_SESSION[$index]["date"]) )
+				if ( isset($item["id"]) && isset($item["date"]) )
 				{
-					updateEvent($_SESSION[$index]["id"],$_SESSION[$index]["date"],$item);
+					updateEvent($item["id"],$item["date"],$item["value"]);
 				}
 				else{
 
@@ -288,12 +268,14 @@ switch (trim($_REQUEST["event"])) {
 
 					$ExtraData[] = $ExtraField;
 
-					$e = SaveEvent($user_id, $session_id, $site_id, $index, $item,$ExtraData);
+					$e = SaveEvent($user_id, $session_id, $site_id, $index, $item["value"],$ExtraData);
 
 					if ($e)
 					{
-						$_SESSION[$index]["id"]=$e["id"];
-						$_SESSION[$index]["date"]=$e["date"];
+						$temporal["name"]=$index;
+						$temporal["id"]=$e["id"];
+						$temporal["date"]=$e["date"];
+						$events[]=$temporal;
 					}
 				}
 			}
@@ -301,6 +283,16 @@ switch (trim($_REQUEST["event"])) {
 	default:
 		# code...
 		break;
+
+	if($NewUser){
+		$res["baw_user_id"]=$user_id;
+	}
+	if($NewSession){
+		$res["baw_session_id"]=$session_id;
+	}
+	$res["events"] = $events;
+	$res["error"]=0;
+	return  $res;
 }
 
 ?>
