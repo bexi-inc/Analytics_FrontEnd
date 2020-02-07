@@ -229,6 +229,8 @@ switch (trim($_REQUEST["event"])) {
 
 			$referrer = parse_referrer($_REQUEST["referer"],$ref_data);
 
+			print_r($referrer);
+
 			$ExtraField["name"] = "ref_type";
 			$ExtraField["value"] = $referrer["medium"];
 			$ExtraData[] = $ExtraField;
