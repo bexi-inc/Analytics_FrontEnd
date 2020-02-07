@@ -18,6 +18,8 @@ foreach ($json_data as $medium => $referers) {
     }
 }
 
+print_r($ref_data);
+
 function parse_referrer($url, $data)
 {
     if ($url === null) {
