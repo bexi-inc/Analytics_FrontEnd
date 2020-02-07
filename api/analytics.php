@@ -49,7 +49,7 @@ foreach ($json_data as $medium => $referers) {
         }
     }
 }
-print_r($ref_data);
+//print_r($ref_data);
 
 
 // FUNCTION TO SAVE EVENTS ON DYNAMODB
@@ -210,7 +210,52 @@ function parse_referrer($url, $data)
     }
 
     $parts = array_merge(['query' => null, 'path' => '/'], $parts);
+
+    $referer = lookup($data, $refererParts['host'], $refererParts['path']);
 }
+
+function lookup($data, $host, $path)
+{
+    $referer = lookupPath($data, $host, $path);
+
+    if ($referer) {
+        return $referer;
+    }
+
+    return $this->lookupHost($data, $host);
+}
+
+
+function lookupPath($data, $host, $path)
+{
+    $referer = lookupHost($data, $host, $path);
+
+    if ($referer) {
+        return $referer;
+    }
+
+    $path = substr($path, 0, strrpos($path, '/'));
+
+    if (!$path) {
+        return null;
+    }
+
+    return lookupPath($data, $host, $path);
+}
+
+function lookupHost($data, $host, $path = null)
+{
+    do {
+        $referer =  isset($data[$host . $path]) ? $data[$host . $path] : null;
+        $host = substr($host, strpos($host, '.') + 1);
+    } while (!$referer && substr_count($host, '.') > 0);
+
+    return $referer;
+}
+
+
+
+print_r($parse_referrer("http://www.google.com/search?q=gateway+oracle+cards+denise+linn&hl=en&client=safari",$ref_data));
 
 
 
