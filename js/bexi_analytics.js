@@ -13,8 +13,8 @@ class baw {
 			"referer" : document.referrer,
 			"location" : window.location.href,
             "path" : window.location.pathname,
-            "baw_user_id": Cookies.get('baw_user_id'),
-            "baw_session_id": Cookies.get('baw_session_id')
+            "baw_user_id": Cookies.get('baw_user_id'+this.SiteId),
+            "baw_session_id": Cookies.get('baw_session_id'+this.SiteId)
 		};
 		
 		this.collector = {
@@ -23,8 +23,8 @@ class baw {
             "referer" : document.referrer,
 			"location" : window.location.href,
             "path" : window.location.pathname,
-            "baw_user_id": Cookies.get('baw_user_id'),
-            "baw_session_id": Cookies.get('baw_session_id'),
+            "baw_user_id": Cookies.get('baw_user_id'+this.SiteId),
+            "baw_session_id": Cookies.get('baw_session_id'+this.SiteId),
             "Data": {
                 "time_page":{
                     "id" : null,
@@ -78,11 +78,11 @@ class baw {
             success: (data) =>{
 
                 if(data["baw_user_id"]){
-                    Cookies.set('baw_user_id', data["baw_user_id"], { expires: 365 });
+                    Cookies.set('baw_user_id'+this.SiteId, data["baw_user_id"], { expires: 365 });
                 }
 
                 if(data["baw_session_id"]){
-                    Cookies.set('baw_session_id', data["baw_session_id"]);
+                    Cookies.set('baw_session_id'+this.SiteId, data["baw_session_id"]);
                 }
 
                 $.each(data["events"], ( index, value ) => {
