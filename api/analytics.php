@@ -35,7 +35,7 @@ $Marshaler = new Marshaler();
 $str = file_get_contents('Data/referrer.json', true);
 $ref_data = json_decode($str);
 
-print_r($ref_data);
+print_r($ref_data["unknown"]);
 
 
 // FUNCTION TO SAVE EVENTS ON DYNAMODB
