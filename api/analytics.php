@@ -181,9 +181,6 @@ function updateEvent($event_id,$full_date,$value){
 
 
 
-print_r(parse_referrer("http://www.google.com/search?q=gateway+oracle+cards+denise+linn&hl=en&client=safari",$ref_data));
-
-
 
 $event = $_REQUEST["event"];
 $event_value = $_REQUEST["event_value"];
