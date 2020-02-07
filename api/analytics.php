@@ -35,7 +35,21 @@ $Marshaler = new Marshaler();
 $str = file_get_contents('Data/referrer.json');
 $json_data = json_decode($str, true);
 
-print_r($json_data);
+$ref_data=[];
+
+foreach ($json_data as $medium => $referers) {
+    foreach ($referers as $source => $referer) {
+        foreach ($referer['domains'] as $domain) {
+            $parameters = isset($referer['parameters']) ? $referer['parameters'] : [];
+            //($domain, $source, $medium, $parameters);
+            $dom["source"] = $source;
+            $dom["medium"] = $medium;
+            $dom["params"] = $parameters;
+            $ref_data[$domain] =  $dom;
+        }
+    }
+}
+print_r($ref_data);
 
 
 // FUNCTION TO SAVE EVENTS ON DYNAMODB
