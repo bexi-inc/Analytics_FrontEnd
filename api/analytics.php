@@ -259,6 +259,7 @@ switch (trim($_REQUEST["event"])) {
 					$events[]=$temporal;
 				}
 			}
+			print_r($ExtraData);
 			SaveEvent($user_id, $session_id, $site_id, "visit", $event_value, $ExtraData);
 		break;
 	case 'collector':
