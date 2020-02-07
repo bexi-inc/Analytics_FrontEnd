@@ -37,6 +37,8 @@ function parse_referrer($url, $data)
 
 
     $referer = lookup($data, $parts['host'], $parts['path']);
+
+    return $referer;
 }
 
 function lookup($data, $host, $path)
@@ -48,8 +50,7 @@ function lookup($data, $host, $path)
         return $referer;
     }
 
-    echo "look host";
-    print_r(lookupHost($data, $host));
+    return lookupHost($data, $host);
 }
 
 
