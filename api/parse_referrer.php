@@ -43,12 +43,12 @@ function lookup($data, $host, $path)
 {
     $referer = lookupPath($data, $host, $path);
 
-    print_r($referer);
+   
     if ($referer) {
         return $referer;
     }
 
-    echo "lookupHost";
+    echo "lookupHost ".$host;
     return lookupHost($data, $host);
 }
 
