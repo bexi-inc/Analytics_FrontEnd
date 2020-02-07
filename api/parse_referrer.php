@@ -21,14 +21,16 @@ foreach ($json_data as $medium => $referers) {
 function parse_referrer($url, $data)
 {
     if ($url === null) {
-    	$ret["type"] = "Direct";
+    	$ret["medium"] = "Direct";
+        $ret["source"] = "";
     	$ret["keywords"] = "";
         return $ret;
     }
 
     $parts = parse_url($url);
     if (!isset($parts['scheme']) || !in_array(strtolower($parts['scheme']), ['http', 'https'])) {
-        $ret["type"] = "Others";
+        $ret["medium"] = "Others";
+        $ret["source"] = "";
     	$ret["keywords"] = "";
         return $ret;
     }

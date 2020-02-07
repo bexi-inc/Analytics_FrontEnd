@@ -233,7 +233,7 @@ switch (trim($_REQUEST["event"])) {
 			print_r($referrer);
 
 			$ExtraField["name"] = "ref_type";
-			$ExtraField["value"] = $referrer["medium"];
+			$ExtraField["value"] = $referrer["type"];
 			$ExtraData[] = $ExtraField;
 
 			$ExtraField["name"] = "ref_source";
