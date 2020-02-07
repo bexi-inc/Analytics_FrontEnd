@@ -18,8 +18,6 @@ foreach ($json_data as $medium => $referers) {
     }
 }
 
-print_r($ref_data);
-
 function parse_referrer($url, $data)
 {
     if ($url === null) {
@@ -36,6 +34,8 @@ function parse_referrer($url, $data)
     }
 
     $parts = array_merge(['query' => null, 'path' => '/'], $parts);
+
+    print_r($parts);
 
     $referer = lookup($data, $refererParts['host'], $refererParts['path']);
 }
