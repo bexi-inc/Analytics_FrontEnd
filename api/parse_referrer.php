@@ -20,7 +20,7 @@ foreach ($json_data as $medium => $referers) {
 
 function parse_referrer($url, $data)
 {
-    if ($url === null) {
+    if ($url === null || empty ($url)) {
     	$ret["medium"] = "Direct";
         $ret["source"] = "";
     	$ret["keywords"] = "";
