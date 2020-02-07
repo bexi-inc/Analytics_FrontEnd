@@ -72,10 +72,10 @@ function lookupPath($data, $host, $path)
 
 function lookupHost($data, $host, $path = null)
 {
-    echo "lookupHost ".$host;
+    //echo "lookupHost ".$host;
     do {
         $referer =  isset($data[$host . $path]) ? $data[$host . $path] : null;
-        print_r($referer);
+        //print_r($referer);
         $host = substr($host, strpos($host, '.') + 1);
     } while (!$referer && substr_count($host, '.') > 0);
 
