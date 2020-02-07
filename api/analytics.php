@@ -255,7 +255,7 @@ function lookupHost($data, $host, $path = null)
 
 
 
-print_r($parse_referrer("http://www.google.com/search?q=gateway+oracle+cards+denise+linn&hl=en&client=safari",$ref_data));
+print_r(parse_referrer("http://www.google.com/search?q=gateway+oracle+cards+denise+linn&hl=en&client=safari",$ref_data));
 
 
 
