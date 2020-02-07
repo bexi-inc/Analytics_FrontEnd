@@ -35,7 +35,6 @@ function parse_referrer($url, $data)
 
     $parts = array_merge(['query' => null, 'path' => '/'], $parts);
 
-    print_r($parts);
 
     $referer = lookup($data, $refererParts['host'], $refererParts['path']);
 }
@@ -44,10 +43,12 @@ function lookup($data, $host, $path)
 {
     $referer = lookupPath($data, $host, $path);
 
+    $print_r($referer);
     if ($referer) {
         return $referer;
     }
 
+    echo "lookupHost";
     return lookupHost($data, $host);
 }
 
