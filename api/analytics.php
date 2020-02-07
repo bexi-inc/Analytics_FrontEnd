@@ -33,9 +33,9 @@ $Marshaler = new Marshaler();
 
 
 $str = file_get_contents('Data/referrer.json');
-$ref_data = json_decode($str, true);
+$json_data = json_decode($str, true);
 
-print_r($ref_data["unknown"]);
+print_r($json_data);
 
 
 // FUNCTION TO SAVE EVENTS ON DYNAMODB
@@ -183,15 +183,19 @@ function updateEvent($event_id,$full_date,$value){
 function parse_referrer($url, $data)
 {
     if ($url === null) {
-        return null;
+    	$ret["type"] = "Direct";
+    	$ret["keywords"] = "";
+        return $ret;
     }
 
     $parts = parse_url($url);
     if (!isset($parts['scheme']) || !in_array(strtolower($parts['scheme']), ['http', 'https'])) {
-        return null;
+        $ret["type"] = "Others";
+    	$ret["keywords"] = "";
+        return $ret;
     }
 
-    return array_merge(['query' => null, 'path' => '/'], $parts);
+    $parts = array_merge(['query' => null, 'path' => '/'], $parts);
 }
 
 
