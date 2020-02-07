@@ -32,8 +32,8 @@ $Dynamodb = $sdk->createDynamoDb();
 $Marshaler = new Marshaler();
 
 
-$str = file_get_contents('Data/referrer.json', true);
-$ref_data = json_decode($str);
+$str = file_get_contents('Data/referrer.json');
+$ref_data = json_decode($str, true);
 
 print_r($ref_data["unknown"]);
 
