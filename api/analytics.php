@@ -117,11 +117,6 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = []
 	    'Item' => $item
 	];
 
-	if ($event=="visit")
-	{
-		print_r($params);
-	}
-
 	try {
 	    $result = $Dynamodb->putItem($params);
 
@@ -135,6 +130,7 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = []
 	    //return true;
 	} catch (DynamoDbException $e) {
 	    //$ret["error"] = $e->getMessage();
+	    print_r($e);
 	}
 
 }
