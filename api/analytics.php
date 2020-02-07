@@ -117,10 +117,10 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = []
 	    'Item' => $item
 	];
 
-	if ($event=="visit")
+	/*if ($event=="visit")
 	{
 		print_r($params);
-	}
+	}*/
 
 	try {
 	    $result = $Dynamodb->putItem($params);
