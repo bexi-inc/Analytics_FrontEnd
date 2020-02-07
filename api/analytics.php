@@ -119,7 +119,7 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = []
 
 	if ($event=="visit")
 	{
-		
+		print_r($params);
 	}
 
 	try {
