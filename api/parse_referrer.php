@@ -36,7 +36,7 @@ function parse_referrer($url, $data)
     $parts = array_merge(['query' => null, 'path' => '/'], $parts);
 
 
-    $referer = lookup($data, $refererParts['host'], $refererParts['path']);
+    $referer = lookup($data, $parts['host'], $parts['path']);
 }
 
 function lookup($data, $host, $path)
