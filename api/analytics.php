@@ -117,6 +117,11 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $extraData = []
 	    'Item' => $item
 	];
 
+	if ($event=="visit")
+	{
+		
+	}
+
 	try {
 	    $result = $Dynamodb->putItem($params);
 
@@ -259,7 +264,7 @@ switch (trim($_REQUEST["event"])) {
 					$events[]=$temporal;
 				}
 			}
-			print_r($ExtraData);
+			//print_r($ExtraData);
 			SaveEvent($user_id, $session_id, $site_id, "visit", $event_value, $ExtraData);
 		break;
 	case 'collector':
