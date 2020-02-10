@@ -1,5 +1,5 @@
 {
-    "unknown": {
+    "Unknown": {
         "Outbrain": {
             "domains": [
                 "paid.outbrain.com"
@@ -46,7 +46,7 @@
             ]
         }
     }, 
-    "search": {
+    "Search": {
         "TalkTalk": {
             "domains": [
                 "www.talktalk.co.uk"
@@ -3607,7 +3607,7 @@
             ]
         }
     }, 
-    "email": {
+    "Email": {
         "Bigpond": {
             "domains": [
                 "webmail.bigpond.com", 
@@ -3683,7 +3683,7 @@
             ]
         }
     }, 
-    "social": {
+    "Social": {
         "hi5": {
             "domains": [
                 "hi5.com"
