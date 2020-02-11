@@ -116,7 +116,7 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $full_date, $ex
 	}*/
 
 	try {
-		print_r($params);
+		print_r($data);
 	  //  $result = $Dynamodb->putItem($params);
 
 	    if ($result)
