@@ -153,7 +153,7 @@ $ref_page[]"getmodu.com";
 
 $site_id = "";
 
-foreach ($tevents as $nevent)
+foreach ($nevent = 0; $nevent<=$tevents, $nevent++)
 {
 	if ($site_id=="" || rand(0,1))
 	{
