@@ -130,7 +130,7 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $full_date, $ex
 	}
 }
 
-$tevents = rand(40);
+$tevents = rand(80);
 
 $sites[]="1581372413.4158";
 $sites[]="1581375649.5616";
@@ -158,6 +158,8 @@ foreach ($nevent = 0; $nevent<=$tevents, $nevent++)
 	if ($site_id=="" || rand(0,1))
 	{
 		$site_id = array_rand($sites)[0];
+		$session="";
+		$user_id="";
 	}
 
 	if ($session=="" || rand(0,1))
