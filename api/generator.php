@@ -34,7 +34,7 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $full_date, $ex
 	global $ref_page;
 	global $ref_data;
 
-	$refpage = array_rand($ref_page);
+	$refpage = $ref_page[array_rand($ref_page)];
 
 	$referrer = parse_referrer($refpage,$ref_data);
 
@@ -133,7 +133,7 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $full_date, $ex
 	}
 }
 
-$tevents = rand(80);
+$tevents = rand(0,80);
 
 $sites[]="1581375649.5616";
 $sites[]="1581377272.4755";
@@ -161,7 +161,7 @@ for ($nevent = 0; $nevent<=$tevents; $nevent++)
 {
 	if ($site_id=="" || rand(0,1))
 	{
-		$site_id = array_rand($sites);
+		$site_id = $sites[array_rand($sites)];
 		$session="";
 		$user_id="";
 	}
