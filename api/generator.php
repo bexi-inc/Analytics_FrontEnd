@@ -155,11 +155,13 @@ $ref_page[]="getmodu.com";
 
 $site_id = "";
 
+echo "ejecutando ".$tevents;
+
 for ($nevent = 0; $nevent<=$tevents; $nevent++)
 {
 	if ($site_id=="" || rand(0,1))
 	{
-		$site_id = array_rand($sites)[0];
+		$site_id = array_rand($sites);
 		$session="";
 		$user_id="";
 	}
