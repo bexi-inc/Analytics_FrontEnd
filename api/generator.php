@@ -104,7 +104,7 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $full_date, $ex
 
     $data .= "}";
 
-	$item = $Marshaler->marshalJson($data);
+	//$item = $Marshaler->marshalJson($data);
 	$params = [
 	    'TableName' => "baw_events",
 	    'Item' => $item
