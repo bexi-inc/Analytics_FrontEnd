@@ -28,6 +28,9 @@ $Marshaler = new Marshaler();
 
 function SaveEvent($user_id, $session, $site_id, $event, $value, $full_date, $extraData = [])
 {
+	global $Marshaler;
+	global $Dynamodb;
+
 	global $ref_page;
 	global $ref_data;
 
