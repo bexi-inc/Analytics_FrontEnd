@@ -184,7 +184,8 @@ for ($nevent = 0; $nevent<=$tevents; $nevent++)
 	$ExtraField["value"] = $referrer["source"];
 	$ExtraData[] = $ExtraField;
 	
-	$fulldate = date("Ymd", strtotime("-".(rand(0,6)))." days", strtotime(date("YmdHms"))));
+	//$fulldate = date("Ymd", strtotime("-".(rand(0,6))." days", strtotime(date("Y-m-d H:m:s")));
+	$fulldate =	date("YmdHms", strtotime("-".(rand(0,6))." days", strtotime(date("Y-m-d H:m:s"))));
 
 	if ($newSession)
 	{
