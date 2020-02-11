@@ -116,15 +116,16 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $full_date, $ex
 	}*/
 
 	try {
-		print_r($item);
-	  //  $result = $Dynamodb->putItem($params);
+		//print_r($item);
+	    $result = $Dynamodb->putItem($params);
 
 	    if ($result)
 	    {
 	    	$out["id"] = $event_id;
 	    	$out["date"] = $full_date;
 
-	    	return $out;
+	    	print_r($out);
+	    	//return $out;
 	    }
 	    //return true;
 	} catch (DynamoDbException $e) {
