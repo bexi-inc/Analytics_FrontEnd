@@ -132,24 +132,23 @@ function SaveEvent($user_id, $session, $site_id, $event, $value, $full_date, $ex
 
 $tevents = rand(80);
 
-$sites[]="1581372413.4158";
 $sites[]="1581375649.5616";
 $sites[]="1581377272.4755";
 $sites[]="1581377370.9319";
 $sites[]="1581377488.9137";
 $sites[]="1581377554.3685";
 
-$ref_page[]"www.google.com";
-$ref_page[]"www.yahoo.com";
-$ref_page[]"www.faceboo.com";
-$ref_page[]"www.twitter.com";
-$ref_page[]"/";
-$ref_page[]"/";
-$ref_page[]"bexi.io";
-$ref_page[]"aaaaa.com";
-$ref_page[]"bing.com";
-$ref_page[]"/";
-$ref_page[]"getmodu.com";
+$ref_page[]="www.google.com";
+$ref_page[]="www.yahoo.com";
+$ref_page[]="www.faceboo.com";
+$ref_page[]="www.twitter.com";
+$ref_page[]="/";
+$ref_page[]="/";
+$ref_page[]="bexi.io";
+$ref_page[]="aaaaa.com";
+$ref_page[]="bing.com";
+$ref_page[]="/";
+$ref_page[]="getmodu.com";
 
 $site_id = "";
 
